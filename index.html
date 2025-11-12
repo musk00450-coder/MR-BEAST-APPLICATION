@@ -1,0 +1,233 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MrBeast Content Creator Application</title>
+  <style>
+    :root{
+      --bg:#0b1020; --card:#0f1724; --accent:#00d1ff; --accent2:#ff3b81; --glass: rgba(255,255,255,0.04);
+      --success:#34d399; --muted: #cbd5e1;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#020617 0%, #07102a 100%);color:#fff}
+    .container{max-width:980px;margin:28px auto;padding:20px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:72px;height:72px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;color:#081426}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:6px 0 0;color:var(--muted)}.card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:14px;padding:18px;margin-top:18px;box-shadow:0 6px 24px rgba(3,7,18,0.6)}
+
+.grid{display:grid;grid-template-columns:1fr 360px;gap:18px}
+.hero{padding:18px}
+.stats{display:flex;gap:14px;align-items:center}
+.stat{background:var(--glass);padding:10px 14px;border-radius:10px}
+.progress{height:12px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden}
+.progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%}
+
+form{display:flex;flex-direction:column;gap:10px}
+label{font-size:13px;color:var(--muted)}
+input,textarea,select{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff}
+.small{font-size:13px;color:var(--muted)}
+.actions{display:flex;gap:10px;align-items:center}
+button.primary{background:linear-gradient(90deg,var(--accent),var(--accent2));border:none;padding:10px 14px;border-radius:10px;color:#081426;font-weight:700;cursor:pointer}
+button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+.countdown{display:flex;gap:10px;align-items:center}
+.timebox{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px;text-align:center;min-width:64px}
+.timebox .num{font-size:18px;font-weight:800}
+footer{margin-top:18px;color:var(--muted);font-size:13px}
+
+@media(max-width:920px){.grid{grid-template-columns:1fr}.brand{flex-direction:column;align-items:flex-start}.logo{width:56px;height:56px}}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">MB</div>
+        <div>
+          <h1>MrBeast Content Creator Selection</h1>
+          <p class="lead">MrBeast is selecting 500 content creators to do content with him — winner takes <strong>$100,000</strong></p>
+        </div>
+      </div>
+      <div class="small">Currently registered: <strong id="registered-count">330</strong>/500</div>
+    </header><div class="grid">
+  <section class="card hero">
+    <h2 style="margin:0 0 8px 0">Apply now — limited spots!</h2>
+    <div class="stats" style="margin-bottom:12px">
+      <div class="stat"><strong>500</strong><div class="small">Wanted</div></div>
+      <div class="stat"><strong>$100,000</strong><div class="small">Prize</div></div>
+      <div class="stat"><strong id="spots-left">170</strong><div class="small">Spots left</div></div>
+    </div>
+
+    <div style="margin-bottom:12px">
+      <div class="small">Countdown to application close:</div>
+      <div class="countdown" style="margin-top:8px">
+        <div class="timebox"><div class="num" id="days">00</div><div class="small">Days</div></div>
+        <div class="timebox"><div class="num" id="hours">00</div><div class="small">Hours</div></div>
+        <div class="timebox"><div class="num" id="minutes">00</div><div class="small">Minutes</div></div>
+        <div class="timebox"><div class="num" id="seconds">00</div><div class="small">Seconds</div></div>
+      </div>
+    </div>
+
+    <div style="margin-top:12px">
+      <div class="small">Progress</div>
+      <div class="progress" style="margin-top:6px"><i id="progress-bar"></i></div>
+    </div>
+
+    <div style="margin-top:14px">
+      <h3 style="margin:0 0 6px 0">How it works</h3>
+      <p class="small">Pay a <strong>$2</strong> application fee via PayPal to confirm you're human. After payment and submission your application will be marked as "Submitted" — please <strong>wait for review</strong>. If reviewed successfully we'll contact you via the email you provide.</p>
+
+      <p class="small"><strong>Note:</strong> This page includes a PayPal client-side integration for quick demo/testing. For production you should implement server-side verification and use your PayPal credentials securely.</p>
+    </div>
+  </section>
+
+  <aside class="card">
+    <h3 style="margin-top:0">Application Form</h3>
+    <form id="application-form">
+      <label for="name">Full name</label>
+      <input id="name" name="name" required placeholder="Your full name" />
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required placeholder="you@example.com" />
+
+      <label for="bio">Short bio / Channel link</label>
+      <textarea id="bio" name="bio" rows="3" placeholder="Tell us about your content (TikTok / YouTube / Instagram)..."></textarea>
+
+      <div class="small">Application fee (verification): <strong>$2</strong></div>
+
+      <div id="paypal-button-container" style="margin-top:8px"></div>
+
+      <div class="actions">
+        <button type="button" class="ghost" id="save-draft">Save draft</button>
+        <button type="button" class="primary" id="submit-manual">Submit (without paying)</button>
+      </div>
+
+      <p class="small" style="margin-top:8px;color:var(--muted)">After submission: <strong>Wait for reviewing</strong>. We'll reach you later via the email you provide.</p>
+    </form>
+
+    <div style="margin-top:12px">
+      <h4 style="margin:6px 0">Status</h4>
+      <div id="status-msg" class="small">Not submitted</div>
+    </div>
+  </aside>
+</div>
+
+<footer class="card">
+  <div class="small">This is a contest-style application demo. Replace the PayPal client ID with your own PayPal <em>Sandbox</em> or <em>Live</em> client ID before accepting real payments. Never paste private keys into public places.</div>
+</footer>
+
+  </div>  <!-- PayPal SDK - replace REPLACE_WITH_YOUR_CLIENT_ID with your PayPal Client ID -->  <script src="https://www.paypal.com/sdk/js?client-id=REPLACE_WITH_YOUR_CLIENT_ID&currency=USD"></script>  <script>
+    // --- Configuration ---
+    const TOTAL_SLOTS = 500;
+    let registered = Number(localStorage.getItem('registered') || 330);
+    const targetDate = new Date('2025-12-12T00:00:00Z'); // 1 month from Nov 12, 2025 (adjustable)
+
+    // --- UI elements ---
+    const regEl = document.getElementById('registered-count');
+    const spotsLeftEl = document.getElementById('spots-left');
+    const progressEl = document.getElementById('progress-bar');
+    const statusMsg = document.getElementById('status-msg');
+
+    function updateStats(){
+      regEl.textContent = registered;
+      spotsLeftEl.textContent = Math.max(TOTAL_SLOTS - registered, 0);
+      const pct = Math.min(100, Math.round((registered / TOTAL_SLOTS) * 100));
+      progressEl.style.width = pct + '%';
+    }
+    updateStats();
+
+    // --- Countdown ---
+    function pad(n){return String(n).padStart(2,'0')}
+    function tickCountdown(){
+      const now = new Date();
+      let diff = Math.max(0, targetDate - now);
+      const days = Math.floor(diff / (1000*60*60*24));
+      diff -= days * (1000*60*60*24);
+      const hours = Math.floor(diff / (1000*60*60));
+      diff -= hours * (1000*60*60);
+      const minutes = Math.floor(diff / (1000*60));
+      diff -= minutes * (1000*60);
+      const seconds = Math.floor(diff/1000);
+      document.getElementById('days').textContent = pad(days);
+      document.getElementById('hours').textContent = pad(hours);
+      document.getElementById('minutes').textContent = pad(minutes);
+      document.getElementById('seconds').textContent = pad(seconds);
+    }
+    tickCountdown();
+    setInterval(tickCountdown, 1000);
+
+    // --- Form helpers ---
+    const form = document.getElementById('application-form');
+    document.getElementById('save-draft').addEventListener('click',()=>{
+      const data = {name:form.name.value,email:form.email.value,bio:form.bio.value};
+      localStorage.setItem('draft', JSON.stringify(data));
+      alert('Draft saved locally.');
+    });
+    document.getElementById('submit-manual').addEventListener('click',()=>{
+      // Submit without paying (for testing) - will increment registered count and store an application record locally
+      submitApplication({paid:false,method:'manual'});
+    });
+
+    function submitApplication(meta){
+      const payload = {
+        name: form.name.value || 'Anonymous',
+        email: form.email.value || 'no-reply@example.com',
+        bio: form.bio.value || '',
+        timestamp: new Date().toISOString(),
+        ...meta
+      };
+
+      // In production: send payload to your server to record the application securely and verify payment with PayPal webhooks.
+      // For demo: store locally and update counts
+      const apps = JSON.parse(localStorage.getItem('applications') || '[]');
+      apps.push(payload);
+      localStorage.setItem('applications', JSON.stringify(apps));
+
+      // Simulate registration increment
+      registered = Math.min(TOTAL_SLOTS, registered + 1);
+      localStorage.setItem('registered', registered);
+      updateStats();
+
+      statusMsg.textContent = 'Submitted — wait for reviewing';
+      alert('Application submitted. Please wait for review — we will reach you via email.');
+    }
+
+    // --- PayPal Buttons (client-side) ---
+    paypal.Buttons({
+      style: {layout:'vertical', color:'gold', shape:'rect', label:'pay'},
+      createOrder: function(data, actions) {
+        // Create the order for $2.00
+        return actions.order.create({
+          purchase_units: [{ amount: { value: '2.00' }, description: 'MrBeast application fee' }]
+        });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          // Payment successful - submit application and record payment details
+          submitApplication({paid:true,method:'paypal',paypalOrder:details});
+        });
+      },
+      onCancel: function (data) {
+        alert('Payment cancelled');
+      },
+      onError: function (err) {
+        console.error('PayPal error', err);
+        alert('Payment failed. Check console for details.');
+      }
+    }).render('#paypal-button-container');
+
+    // --- Preload draft if present ---
+    (function loadDraft(){
+      const d = localStorage.getItem('draft');
+      if(d){
+        try{const data = JSON.parse(d); form.name.value = data.name||''; form.email.value = data.email||''; form.bio.value = data.bio||'';}catch(e){}
+      }
+    })();
+
+  </script></body>
+</html>
